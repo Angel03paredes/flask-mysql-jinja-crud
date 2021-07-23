@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<script>
+    function update(id,title,content){
+        document.getElementById('title').value = title;
+        document.getElementById('content').value = content;
+        document.getElementById('form').action = `/notes/update/${id}`
+    }
+</script>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md p-3">
+            <div class="card p-3">
+                <form action="/notes/create" id="form" method="POST">
+                    <div class="form-group">
+                        <input type="text" placeholder="Enter your title..." id="title" name="title" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <textarea name="content" placeholder="Enter your text..." id="content"  cols="30" rows="10" class="form-control"></textarea>
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-block" value="Save">
+                </form>
+            </div>
+        </div>
+        <div class="col-md p-3">
+            <table class=" table striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Content</th>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                       {% for note in notes %}
+                       <tr>
+                        <td>{{ note.0 }}</td>
+                        <td>{{ note.1 }}</td>
+                        <td>{{ note.2[0:5] + "..." }}</td>
+                        <td><button onclick="update{{note}}" class="btn btn-small btn-secondary">Update</button></td>
+                        <td><a href="/notes/delete/{{note.0}}" class="btn btn-small btn-danger">Delete</a></td>
+                        </tr>
+                       {% endfor %}
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
